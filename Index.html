@@ -5,124 +5,174 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ROK Alliance Application</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Roboto, sans-serif;
+    }
     body {
-      background: linear-gradient(135deg, #2c1a47, #1a2a4a);
+      background: linear-gradient(135deg, #1E1B4B 0%, #312E81 100%);
       min-height: 100vh;
-      padding: 20px;
-      color: #fff;
+      padding: 2rem 1rem;
+      color: #F8FAFC;
     }
-    .container {
-      max-width: 520px;
+    .card {
+      max-width: 540px;
       margin: 0 auto;
-      background: rgba(0,0,0,0.35);
-      border-radius: 16px;
-      padding: 30px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-      border: 1px solid rgba(255,200,100,0.2);
+      background: rgba(15, 23, 42, 0.7);
+      border-radius: 20px;
+      padding: 2.5rem;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+      border: 1px solid rgba(251, 191, 36, 0.25);
     }
-    h1 {
+    .header {
       text-align: center;
-      color: #ffd166;
-      margin-bottom: 8px;
-      font-size: 26px;
+      margin-bottom: 2rem;
     }
-    .subtitle {
-      text-align: center;
-      color: #ccc;
-      margin-bottom: 25px;
-      font-size: 14px;
+    .header h1 {
+      font-size: 1.8rem;
+      color: #FBBF24;
+      margin-bottom: 0.3rem;
+    }
+    .header p {
+      color: #94A3B8;
+      font-size: 0.95rem;
+    }
+    .form-group {
+      margin-bottom: 1.2rem;
     }
     label {
       display: block;
-      margin: 14px 0 5px;
-      color: #ffd166;
+      margin-bottom: 0.5rem;
+      color: #FCD34D;
       font-weight: 500;
+      font-size: 0.9rem;
     }
     input, select, textarea {
       width: 100%;
-      padding: 11px 14px;
-      border: none;
-      border-radius: 8px;
-      background: rgba(255,255,255,0.08);
-      color: #fff;
-      font-size: 15px;
-      outline: none;
-      border: 1px solid transparent;
+      padding: 0.85rem 1rem;
+      border-radius: 10px;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      background: rgba(30, 41, 59, 0.6);
+      color: #F8FAFC;
+      font-size: 0.95rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
     input:focus, select:focus, textarea:focus {
-      border-color: #ffd166;
+      outline: none;
+      border-color: #FBBF24;
+      box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.15);
     }
-    button {
+    textarea { resize: vertical; min-height: 80px; }
+    .btn {
       width: 100%;
-      margin-top: 25px;
-      padding: 14px;
-      background: linear-gradient(90deg, #f59e0b, #d97706);
+      padding: 1rem;
+      margin-top: 0.5rem;
+      background: linear-gradient(90deg, #F59E0B, #D97706);
       border: none;
-      border-radius: 10px;
-      color: #fff;
-      font-size: 17px;
-      font-weight: bold;
+      border-radius: 12px;
+      color: white;
+      font-size: 1rem;
+      font-weight: 600;
       cursor: pointer;
-      transition: transform 0.2s;
+      transition: transform 0.2s, box-shadow 0.2s;
     }
-    button:hover { transform: scale(1.02); }
-    button:disabled { background: #666; cursor: not-allowed; transform: none; }
-    .status { margin-top: 15px; text-align: center; font-weight: 500; }
-    .success { color: #4ade80; }
-    .error { color: #f87171; }
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(245, 158, 11, 0.3);
+    }
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+    .status {
+      margin-top: 1rem;
+      text-align: center;
+      font-weight: 500;
+      padding: 0.75rem;
+      border-radius: 8px;
+      display: none;
+    }
+    .status.show { display: block; }
+    .success { background: rgba(34, 197, 94, 0.15); color: #86EFAC; }
+    .error   { background: rgba(239, 68, 68, 0.15); color: #FCA5A5; }
+    .required::after { content: " *"; color: #F87171; }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>🏰 ROK ALLIANCE APPLICATION</h1>
-    <p class="subtitle">Fill all details → sent directly to Staff</p>
+  <div class="card">
+    <div class="header">
+      <h1>🏰 ROK Alliance Application</h1>
+      <p>Fill in all required fields — submitted directly to Staff</p>
+    </div>
 
     <form id="rokForm">
-      <label>Discord Username *</label>
-      <input type="text" id="discord" placeholder="@username" required>
+      <div class="form-group">
+        <label class="required">Discord Username</label>
+        <input type="text" id="discord" placeholder="@username#1234" required>
+      </div>
 
-      <label>In-Game Name (IGN) *</label>
-      <input type="text" id="ign" placeholder="Your ROK Name" required>
+      <div class="form-group">
+        <label class="required">In-Game Name (IGN)</label>
+        <input type="text" id="ign" placeholder="Your ROK Name" required>
+      </div>
 
-      <label>Kingdom / Server *</label>
-      <input type="text" id="kingdom" placeholder="e.g. K1234" required>
+      <div class="form-group">
+        <label class="required">Kingdom / Server</label>
+        <input type="text" id="kingdom" placeholder="e.g. K4567" required>
+      </div>
 
-      <label>Total Might / Power *</label>
-      <input type="number" id="might" placeholder="e.g. 50000000" required>
+      <div class="form-group">
+        <label class="required">Total Might</label>
+        <input type="number" id="might" placeholder="e.g. 55000000" required>
+      </div>
 
-      <label>City Hall Level *</label>
-      <input type="number" id="chlevel" placeholder="e.g. 25" required>
+      <div class="form-group">
+        <label class="required">City Hall Level</label>
+        <input type="number" id="chlevel" placeholder="e.g. 28" required>
+      </div>
 
-      <label>Main Commanders & Levels</label>
-      <textarea id="commanders" rows="3" placeholder="e.g. Yi Seong-Gye Lv60, Joan Lv55..."></textarea>
+      <div class="form-group">
+        <label>Main Commanders & Levels</label>
+        <textarea id="commanders" placeholder="e.g. Yi Seong-Gye Lv60, Martel Lv55..."></textarea>
+      </div>
 
-      <label>Previous Alliance & Reason for Leaving</label>
-      <textarea id="previous" rows="2" placeholder="Name & short reason..."></textarea>
+      <div class="form-group">
+        <label>Previous Alliance & Reason for Leaving</label>
+        <textarea id="previous" placeholder="Alliance name — brief reason..."></textarea>
+      </div>
 
-      <label>Timezone / Active Hours *</label>
-      <input type="text" id="timezone" placeholder="e.g. UTC+8 / 8PM–12AM" required>
+      <div class="form-group">
+        <label class="required">Timezone & Active Hours</label>
+        <input type="text" id="timezone" placeholder="e.g. UTC+8 | 7PM–11PM" required>
+      </div>
 
-      <label>Can use Voice Comms during Wars?</label>
-      <select id="voice">
-        <option value="✅ Yes">✅ Yes</option>
-        <option value="⚠️ Sometimes">⚠️ Sometimes</option>
-        <option value="❌ No">❌ No</option>
-      </select>
+      <div class="form-group">
+        <label>Voice Comms During Wars</label>
+        <select id="voice">
+          <option value="✅ Yes — always available">✅ Yes — always available</option>
+          <option value="⚠️ Sometimes — depends">⚠️ Sometimes — depends</option>
+          <option value="❌ No — cannot use">❌ No — cannot use</option>
+        </select>
+      </div>
 
-      <label>Anything Else?</label>
-      <textarea id="extra" rows="2" placeholder="Goals, experience, etc..."></textarea>
+      <div class="form-group">
+        <label>Anything Else We Should Know</label>
+        <textarea id="extra" placeholder="Goals, experience, etc..."></textarea>
+      </div>
 
-      <button type="submit" id="submitBtn">📤 SUBMIT APPLICATION</button>
+      <button type="submit" class="btn" id="submitBtn">📤 SUBMIT APPLICATION</button>
       <div id="statusMsg" class="status"></div>
     </form>
   </div>
 
   <script>
-    // --------------------------
-    // PASTE YOUR WEBHOOK URL BELOW
+    // === REPLACE WITH YOUR WEBHOOK URL ===
     const WEBHOOK_URL = "https://discord.com/api/webhooks/1555527280552452146/eVYYlrza15AJb0iRGeYw2qX3zi_1IMXHlqXKUS4KZe-aNBzP156R9mQNx9-V9_Ks8AwZ";
-    // --------------------------
+    // ======================================
 
     const form = document.getElementById('rokForm');
     const statusMsg = document.getElementById('statusMsg');
@@ -131,13 +181,14 @@
     form.addEventListener('submit', async e => {
       e.preventDefault();
       submitBtn.disabled = true;
-      statusMsg.textContent = "Sending...";
       statusMsg.className = "status";
+      statusMsg.textContent = "Sending your application...";
+      statusMsg.classList.add("show");
 
       const data = {
         embeds: [{
-          title: "📥 New ROK Application",
-          color: 16752984,
+          title: "📥 NEW ROK APPLICATION",
+          color: 16766720,
           fields: [
             { name: "Discord", value: document.getElementById('discord').value, inline: true },
             { name: "IGN", value: document.getElementById('ign').value, inline: true },
@@ -145,12 +196,13 @@
             { name: "Might", value: Number(document.getElementById('might').value).toLocaleString(), inline: true },
             { name: "City Hall", value: `Lv. ${document.getElementById('chlevel').value}`, inline: true },
             { name: "Timezone", value: document.getElementById('timezone').value, inline: true },
-            { name: "Voice Comms", value: document.getElementById('voice').value, inline: true },
+            { name: "Voice Comms", value: document.getElementById('voice').value },
             { name: "Main Commanders", value: document.getElementById('commanders').value || "—" },
             { name: "Previous Alliance", value: document.getElementById('previous').value || "—" },
-            { name: "Additional Info", value: document.getElementById('extra').value || "—" }
+            { name: "Notes / Extra", value: document.getElementById('extra').value || "—" }
           ],
-          timestamp: new Date().toISOString()
+          timestamp: new Date().toISOString(),
+          footer: { text: "Submitted via ROK Application Form" }
         }]
       };
 
@@ -162,15 +214,15 @@
         });
 
         if (res.ok) {
-          statusMsg.textContent = "✅ Application Submitted! We'll get back to you soon.";
-          statusMsg.classList.add("success");
+          statusMsg.textContent = "✅ Submitted! Thank you — we'll reply within 48 hours.";
+          statusMsg.classList.add("success", "show");
           form.reset();
         } else {
-          throw new Error("Server responded with error");
+          throw new Error("Response not OK");
         }
       } catch (err) {
         statusMsg.textContent = "❌ Failed to send. Check webhook URL.";
-        statusMsg.classList.add("error");
+        statusMsg.classList.add("error", "show");
         console.error(err);
       }
 
