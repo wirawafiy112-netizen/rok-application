@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ROK Alliance Application</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Roboto, sans-serif;
+    }
+    body {
+      background: linear-gradient(135deg, #1E1B4B 0%, #312E81 100%);
+      min-height: 100vh;
+      padding: 2rem 1rem;
+      color: #F8FAFC;
+    }
+    .card {
+      max-width: 540px;
+      margin: 0 auto;
+      background: rgba(15, 23, 42, 0.7);
+      border-radius: 20px;
+      padding: 2.5rem;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+      border: 1px solid rgba(251, 191, 36, 0.25);
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .header h1 {
+      font-size: 1.8rem;
+      color: #FBBF24;
+      margin-bottom: 0.3rem;
+    }
+    .header p {
+      color: #94A3B8;
+      font-size: 0.95rem;
+    }
+    .form-group {
+      margin-bottom: 1.2rem;
+    }
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: #FCD34D;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 0.85rem 1rem;
+      border-radius: 10px;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      background: rgba(30, 41, 59, 0.6);
+      color: #F8FAFC;
+      font-size: 0.95rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #FBBF24;
+      box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.15);
+    }
+    textarea { resize: vertical; min-height: 80px; }
+    .btn {
+      width: 100%;
+      padding: 1rem;
+      margin-top: 0.5rem;
+      background: linear-gradient(90deg, #F59E0B, #D97706);
+      border: none;
+      border-radius: 12px;
+      color: white;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(245, 158, 11, 0.3);
+    }
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+    .status {
+      margin-top: 1rem;
+      text-align: center;
+      font-weight: 500;
+      padding: 0.75rem;
+      border-radius: 8px;
+      display: none;
+    }
+    .status.show { display: block; }
+    .success { background: rgba(34, 197, 94, 0.15); color: #86EFAC; }
+    .error   { background: rgba(239, 68, 68, 0.15); color: #FCA5A5; }
+    .required::after { content: " *"; color: #F87171; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="header">
+      <h1>🏰 ROK Alliance Application</h1>
+      <p>Fill in all required fields — submitted directly to Staff</p>
+    </div>
+
+    <form id="rokForm">
+      <div class="form-group">
+        <label class="required">Discord Username</label>
+        <input type="text" id="discord" placeholder="@username#1234" required>
+      </div>
+
+      <div class="form-group">
+        <label class="required">In-Game Name (IGN)</label>
+        <input type="text" id="ign" placeholder="Your ROK Name" required>
+      </div>
+
+      <div class="form-group">
+        <label class="required">Kingdom / Server</label>
+        <input type="text" id="kingdom" placeholder="e.g. K4567" required>
+      </div>
+
+      <div class="form-group">
+        <label class="required">Total Might</label>
+        <input type="number" id="might" placeholder="e.g. 55000000" required>
+      </div>
+
+      <div class="form-group">
+        <label class="required">City Hall Level</label>
+        <input type="number" id="chlevel" placeholder="e.g. 28" required>
+      </div>
+
+      <div class="form-group">
+        <label>Main Commanders & Levels</label>
+        <textarea id="commanders" placeholder="e.g. Yi Seong-Gye Lv60, Martel Lv55..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Previous Alliance & Reason for Leaving</label>
+        <textarea id="previous" placeholder="Alliance name — brief reason..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label class="required">Timezone & Active Hours</label>
+        <input type="text" id="timezone" placeholder="e.g. UTC+8 | 7PM–11PM" required>
+      </div>
+
+      <div class="form-group">
+        <label>Voice Comms During Wars</label>
+        <select id="voice">
+          <option value="✅ Yes — always available">✅ Yes — always available</option>
+          <option value="⚠️ Sometimes — depends">⚠️ Sometimes — depends</option>
+          <option value="❌ No — cannot use">❌ No — cannot use</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Anything Else We Should Know</label>
+        <textarea id="extra" placeholder="Goals, experience, etc..."></textarea>
+      </div>
+
+      <button type="submit" class="btn" id="submitBtn">📤 SUBMIT APPLICATION</button>
+      <div id="statusMsg" class="status"></div>
+    </form>
+  </div>
+
+  <script>
+    // === REPLACE WITH YOUR WEBHOOK URL ===
+    const WEBHOOK_URL = "YOUR_DISCORD_WEBHOOK_URL_HERE";
+    // ======================================
+
+    const form = document.getElementById('rokForm');
+    const statusMsg = document.getElementById('statusMsg');
+    const submitBtn = document.getElementById('submitBtn');
+
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      submitBtn.disabled = true;
+      statusMsg.className = "status";
+      statusMsg.textContent = "Sending your application...";
+      statusMsg.classList.add("show");
+
+      const data = {
+        embeds: [{
+          title: "📥 NEW ROK APPLICATION",
+          color: 16766720,
+          fields: [
+            { name: "Discord", value: document.getElementById('discord').value, inline: true },
+            { name: "IGN", value: document.getElementById('ign').value, inline: true },
+            { name: "Kingdom", value: document.getElementById('kingdom').value, inline: true },
+            { name: "Might", value: Number(document.getElementById('might').value).toLocaleString(), inline: true },
+            { name: "City Hall", value: `Lv. ${document.getElementById('chlevel').value}`, inline: true },
+            { name: "Timezone", value: document.getElementById('timezone').value, inline: true },
+            { name: "Voice Comms", value: document.getElementById('voice').value },
+            { name: "Main Commanders", value: document.getElementById('commanders').value || "—" },
+            { name: "Previous Alliance", value: document.getElementById('previous').value || "—" },
+            { name: "Notes / Extra", value: document.getElementById('extra').value || "—" }
+          ],
+          timestamp: new Date().toISOString(),
+          footer: { text: "Submitted via ROK Application Form" }
+        }]
+      };
+
+      try {
+        const res = await fetch(WEBHOOK_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+
+        if (res.ok) {
+          statusMsg.textContent = "✅ Submitted! Thank you — we'll reply within 48 hours.";
+          statusMsg.classList.add("success", "show");
+          form.reset();
+        } else {
+          throw new Error("Response not OK");
+        }
+      } catch (err) {
+        statusMsg.textContent = "❌ Failed to send. Check webhook URL.";
+        statusMsg.classList.add("error", "show");
+        console.error(err);
+      }
+
+      submitBtn.disabled = false;
+    });
+  </script>
+</body>
+</html>
