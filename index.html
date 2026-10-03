@@ -5,114 +5,47 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ROK Alliance Application</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', Roboto, sans-serif;
-    }
-    body {
-      background: linear-gradient(135deg, #1E1B4B 0%, #312E81 100%);
-      min-height: 100vh;
-      padding: 2rem 1rem;
-      color: #F8FAFC;
-    }
-    .card {
-      max-width: 540px;
-      margin: 0 auto;
-      background: rgba(15, 23, 42, 0.7);
-      border-radius: 20px;
-      padding: 2.5rem;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.35);
-      border: 1px solid rgba(251, 191, 36, 0.25);
-    }
-    .header {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-    .header h1 {
-      font-size: 1.8rem;
-      color: #FBBF24;
-      margin-bottom: 0.3rem;
-    }
-    .header p {
-      color: #94A3B8;
-      font-size: 0.95rem;
-    }
-    .form-group {
-      margin-bottom: 1.2rem;
-    }
-    label {
-      display: block;
-      margin-bottom: 0.5rem;
-      color: #FCD34D;
-      font-weight: 500;
-      font-size: 0.9rem;
-    }
-    input, select, textarea {
-      width: 100%;
-      padding: 0.85rem 1rem;
-      border-radius: 10px;
-      border: 1px solid rgba(148, 163, 184, 0.3);
-      background: rgba(30, 41, 59, 0.6);
-      color: #F8FAFC;
-      font-size: 0.95rem;
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
-    input:focus, select:focus, textarea:focus {
-      outline: none;
-      border-color: #FBBF24;
-      box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.15);
-    }
-    textarea { resize: vertical; min-height: 80px; }
-    .btn {
-      width: 100%;
-      padding: 1rem;
-      margin-top: 0.5rem;
-      background: linear-gradient(90deg, #F59E0B, #D97706);
-      border: none;
-      border-radius: 12px;
-      color: white;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(245, 158, 11, 0.3);
-    }
-    .btn:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-      transform: none;
-      box-shadow: none;
-    }
-    .status {
-      margin-top: 1rem;
-      text-align: center;
-      font-weight: 500;
-      padding: 0.75rem;
-      border-radius: 8px;
-      display: none;
-    }
-    .status.show { display: block; }
-    .success { background: rgba(34, 197, 94, 0.15); color: #86EFAC; }
-    .error   { background: rgba(239, 68, 68, 0.15); color: #FCA5A5; }
-    .required::after { content: " *"; color: #F87171; }
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', Roboto, sans-serif; }
+    body { background:linear-gradient(135deg,#1E1B4B 0%,#312E81 100%); min-height:100vh; padding:2rem 1rem; color:#F8FAFC; }
+    .card { max-width:540px; margin:0 auto; background:rgba(15,23,42,0.7); border-radius:20px; padding:2.5rem; box-shadow:0 20px 60px rgba(0,0,0,0.35); border:1px solid rgba(251,191,36,0.25); }
+    .header { text-align:center; margin-bottom:2rem; }
+    .header h1 { font-size:1.8rem; color:#FBBF24; margin-bottom:0.3rem; }
+    .header p { color:#94A3B8; font-size:0.95rem; }
+    .form-group { margin-bottom:1.2rem; }
+    label { display:block; margin-bottom:0.5rem; color:#FCD34D; font-weight:500; font-size:0.9rem; }
+    .hint { font-size:0.78rem; color:#94A3B8; margin-top:0.3rem; line-height:1.4; }
+    input, select, textarea { width:100%; padding:0.85rem 1rem; border-radius:10px; border:1px solid rgba(148,163,184,0.3); background:rgba(30,41,59,0.6); color:#F8FAFC; font-size:0.95rem; transition:border-color .2s, box-shadow .2s; }
+    input:focus, select:focus, textarea:focus { outline:none; border-color:#FBBF24; box-shadow:0 0 0 3px rgba(251,191,36,0.15); }
+    textarea { resize:vertical; min-height:80px; }
+    input[type=file] { padding:0.6rem; }
+    #preview { max-width:100%; max-height:220px; border-radius:10px; margin-top:0.6rem; display:none; border:1px solid rgba(251,191,36,0.4); }
+    .btn { width:100%; padding:1rem; margin-top:0.5rem; background:linear-gradient(90deg,#F59E0B,#D97706); border:none; border-radius:12px; color:white; font-size:1rem; font-weight:600; cursor:pointer; transition:transform .2s, box-shadow .2s; }
+    .btn:hover { transform:translateY(-2px); box-shadow:0 8px 20px rgba(245,158,11,0.3); }
+    .btn:disabled { opacity:0.6; cursor:not-allowed; transform:none; box-shadow:none; }
+    .status { margin-top:1rem; text-align:center; font-weight:500; padding:0.75rem; border-radius:8px; display:none; }
+    .status.show { display:block; }
+    .success { background:rgba(34,197,94,0.15); color:#86EFAC; }
+    .error { background:rgba(239,68,68,0.15); color:#FCA5A5; }
+    .required::after { content:" *"; color:#F87171; }
   </style>
 </head>
 <body>
   <div class="card">
     <div class="header">
-      <h1>🏰 ROK Alliance Application</h1>
-      <p>Fill in all required fields — submitted directly to Staff</p>
+      <h1>ROK Alliance Application</h1>
+      <p>All fields marked * are required &mdash; sent privately to Staff</p>
     </div>
 
     <form id="rokForm">
       <div class="form-group">
         <label class="required">Discord Username</label>
-        <input type="text" id="discord" placeholder="@username#1234" required>
+        <input type="text" id="discord" placeholder="@username" required>
+      </div>
+
+      <div class="form-group">
+        <label class="required">Discord User ID</label>
+        <input type="text" id="discordid" placeholder="17-19 digit number" pattern="[0-9]{17,19}" required>
+        <p class="hint">Enable Developer Mode: User Settings &rarr; Advanced &rarr; Developer Mode ON. Then right-click your own profile &rarr; Copy User ID.</p>
       </div>
 
       <div class="form-group">
@@ -127,35 +60,35 @@
 
       <div class="form-group">
         <label class="required">Total Might</label>
-        <input type="number" id="might" placeholder="e.g. 55000000" required>
+        <input type="text" id="might" inputmode="numeric" placeholder="e.g. 55000000" required>
       </div>
 
       <div class="form-group">
         <label class="required">City Hall Level</label>
-        <input type="number" id="chlevel" placeholder="e.g. 28" required>
+        <input type="number" id="chlevel" min="1" max="30" placeholder="e.g. 28" required>
       </div>
 
       <div class="form-group">
-        <label>Main Commanders & Levels</label>
+        <label>Main Commanders &amp; Levels</label>
         <textarea id="commanders" placeholder="e.g. Yi Seong-Gye Lv60, Martel Lv55..."></textarea>
       </div>
 
       <div class="form-group">
-        <label>Previous Alliance & Reason for Leaving</label>
-        <textarea id="previous" placeholder="Alliance name — brief reason..."></textarea>
+        <label>Previous Alliance &amp; Reason for Leaving</label>
+        <textarea id="previous" placeholder="Alliance name &mdash; brief reason..."></textarea>
       </div>
 
       <div class="form-group">
-        <label class="required">Timezone & Active Hours</label>
-        <input type="text" id="timezone" placeholder="e.g. UTC+8 | 7PM–11PM" required>
+        <label class="required">Timezone &amp; Active Hours</label>
+        <input type="text" id="timezone" placeholder="e.g. UTC+8 | 7PM-11PM" required>
       </div>
 
       <div class="form-group">
         <label>Voice Comms During Wars</label>
         <select id="voice">
-          <option value="✅ Yes — always available">✅ Yes — always available</option>
-          <option value="⚠️ Sometimes — depends">⚠️ Sometimes — depends</option>
-          <option value="❌ No — cannot use">❌ No — cannot use</option>
+          <option value="Yes - always available">Yes - always available</option>
+          <option value="Sometimes - depends">Sometimes - depends</option>
+          <option value="No - cannot use">No - cannot use</option>
         </select>
       </div>
 
@@ -164,66 +97,126 @@
         <textarea id="extra" placeholder="Goals, experience, etc..."></textarea>
       </div>
 
-      <button type="submit" class="btn" id="submitBtn">📤 SUBMIT APPLICATION</button>
+      <div class="form-group">
+        <label class="required">ROK Profile Screenshot (Proof)</label>
+        <input type="file" id="screenshot" accept="image/png, image/jpeg, image/webp" required>
+        <p class="hint">Must show your in-game profile (name, power, kingdom). PNG/JPG/WebP, max 8MB.</p>
+        <img id="preview" alt="Screenshot preview">
+      </div>
+
+      <button type="submit" class="btn" id="submitBtn">SUBMIT APPLICATION</button>
       <div id="statusMsg" class="status"></div>
     </form>
   </div>
 
   <script>
-    // === REPLACE WITH YOUR WEBHOOK URL ===
-    const WEBHOOK_URL = "https://discord.com/api/webhooks/1555527280552452146/eVYYlrza15AJb0iRGeYw2qX3zi_1IMXHlqXKUS4KZe-aNBzP156R9mQNx9-V9_Ks8AwZ";
-    // ======================================
+    // ============================================================
+    //  FILL IN THESE 3 VALUES
+    // ============================================================
+    const WEBHOOK_URL  = "https://discord.com/api/webhooks/1555527280552452146/eVYYlrza15AJb0iRGeYw2qX3zi_1IMXHlqXKUS4KZe-aNBzP156R9mQNx9-V9_Ks8AwZ";   // webhook created INSIDE #applications
+    const R5_ROLE_ID   = "";   // Leader (R5) role ID  (or leave "" to skip ping)
+    const R4_ROLE_ID   = "";   // Officer R4 role ID   (or leave "" to skip ping)
+    // ============================================================
 
-    const form = document.getElementById('rokForm');
+    const form      = document.getElementById('rokForm');
     const statusMsg = document.getElementById('statusMsg');
     const submitBtn = document.getElementById('submitBtn');
+    const fileInput = document.getElementById('screenshot');
+    const preview   = document.getElementById('preview');
+    const MAX_BYTES = 8 * 1024 * 1024;
 
-    form.addEventListener('submit', async e => {
+    fileInput.addEventListener('change', function () {
+      var f = fileInput.files[0];
+      if (!f) { preview.style.display = 'none'; return; }
+      if (f.size > MAX_BYTES) {
+        alert("File too large! Max 8MB. Please compress or resize the screenshot.");
+        fileInput.value = '';
+        preview.style.display = 'none';
+        return;
+      }
+      preview.src = URL.createObjectURL(f);
+      preview.style.display = 'block';
+    });
+
+    function val(id) {
+      var el = document.getElementById(id);
+      return el ? (el.value || '').trim() : '';
+    }
+
+    function showStatus(msg, isError, loading) {
+      statusMsg.textContent = msg;
+      statusMsg.className = 'status show ' + (isError ? 'error' : 'success');
+      statusMsg.style.color = loading ? '#FCD34D' : '';
+    }
+
+    form.addEventListener('submit', async function (e) {
       e.preventDefault();
-      submitBtn.disabled = true;
-      statusMsg.className = "status";
-      statusMsg.textContent = "Sending your application...";
-      statusMsg.classList.add("show");
 
-      const data = {
-        embeds: [{
-          title: "📥 NEW ROK APPLICATION",
-          color: 16766720,
-          fields: [
-            { name: "Discord", value: document.getElementById('discord').value, inline: true },
-            { name: "IGN", value: document.getElementById('ign').value, inline: true },
-            { name: "Kingdom", value: document.getElementById('kingdom').value, inline: true },
-            { name: "Might", value: Number(document.getElementById('might').value).toLocaleString(), inline: true },
-            { name: "City Hall", value: `Lv. ${document.getElementById('chlevel').value}`, inline: true },
-            { name: "Timezone", value: document.getElementById('timezone').value, inline: true },
-            { name: "Voice Comms", value: document.getElementById('voice').value },
-            { name: "Main Commanders", value: document.getElementById('commanders').value || "—" },
-            { name: "Previous Alliance", value: document.getElementById('previous').value || "—" },
-            { name: "Notes / Extra", value: document.getElementById('extra').value || "—" }
-          ],
-          timestamp: new Date().toISOString(),
-          footer: { text: "Submitted via ROK Application Form" }
-        }]
+      var file = fileInput.files[0];
+      if (!file) { showStatus('Please attach your ROK profile screenshot.', true); return; }
+      if (file.size > MAX_BYTES) { showStatus('Screenshot must be under 8MB.', true); return; }
+
+      submitBtn.disabled = true;
+      showStatus('Submitting your application...', false, true);
+
+      var discordUser = val('discord');
+      var userID      = val('discordid');
+      var ign         = val('ign') || 'Applicant';
+      var mightRaw    = val('might').replace(/[^0-9]/g, '');
+      var mightFmt    = mightRaw ? Number(mightRaw).toLocaleString() : val('might');
+
+      var embed = {
+        title: 'New ROK Application',
+        color: 16766720,
+        image: { url: 'attachment://rok-proof.png' },
+        fields: [
+          { name: 'Discord',          value: discordUser || '-', inline: true },
+          { name: 'Discord User ID',  value: userID || '-',      inline: true },
+          { name: 'IGN',              value: ign,                 inline: true },
+          { name: 'Kingdom',          value: val('kingdom') || '-', inline: true },
+          { name: 'Might',            value: mightFmt,            inline: true },
+          { name: 'City Hall',        value: 'Lv. ' + (val('chlevel') || '-'), inline: true },
+          { name: 'Timezone',         value: val('timezone') || '-', inline: true },
+          { name: 'Voice Comms',      value: val('voice') || '-' },
+          { name: 'Main Commanders',  value: val('commanders') || '-' },
+          { name: 'Previous Alliance', value: val('previous') || '-' },
+          { name: 'Extra Info',       value: val('extra') || '-' }
+        ],
+        timestamp: new Date().toISOString(),
+        footer: { text: 'Submitted via ROK Application Form' }
       };
 
-      try {
-        const res = await fetch(WEBHOOK_URL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data)
-        });
+      var pings = [];
+      if (/^\d{17,20}$/.test(R5_ROLE_ID)) pings.push('<@&' + R5_ROLE_ID + '>');
+      if (/^\d{17,20}$/.test(R4_ROLE_ID)) pings.push('<@&' + R4_ROLE_ID + '>');
+      var content = (pings.length ? pings.join(' ') + ' ' : '') + 'New application from ' + discordUser;
 
+      var threadName = ('App: ' + ign).slice(0, 95);
+
+      var payload = {
+        thread_name: threadName,
+        content: content,
+        embeds: [embed]
+      };
+
+      var fd = new FormData();
+      fd.append('payload_json', JSON.stringify(payload));
+      fd.append('files[0]', file, 'rok-proof.png');
+
+      try {
+        var res = await fetch(WEBHOOK_URL, { method: 'POST', body: fd });
         if (res.ok) {
-          statusMsg.textContent = "✅ Submitted! Thank you — we'll reply within 48 hours.";
-          statusMsg.classList.add("success", "show");
+          showStatus('Submitted! Staff will review your application and contact you on Discord within 48 hours.', false);
           form.reset();
+          preview.style.display = 'none';
         } else {
-          throw new Error("Response not OK");
+          var txt = '';
+          try { txt = await res.text(); } catch (_) {}
+          throw new Error('HTTP ' + res.status + ' ' + txt);
         }
       } catch (err) {
-        statusMsg.textContent = "❌ Failed to send. Check webhook URL.";
-        statusMsg.classList.add("error", "show");
         console.error(err);
+        showStatus('Failed to send. Check your webhook URL and that it was created in the applications channel.', true);
       }
 
       submitBtn.disabled = false;
