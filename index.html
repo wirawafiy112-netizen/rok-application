@@ -43,12 +43,6 @@
       </div>
 
       <div class="form-group">
-        <label class="required">Discord User ID</label>
-        <input type="text" id="discordid" placeholder="17-19 digit number" pattern="[0-9]{17,19}" required>
-        <p class="hint">Enable Developer Mode: User Settings &rarr; Advanced &rarr; Developer Mode ON. Then right-click your own profile &rarr; Copy User ID.</p>
-      </div>
-
-      <div class="form-group">
         <label class="required">In-Game Name (IGN)</label>
         <input type="text" id="ign" placeholder="Your ROK Name" required>
       </div>
@@ -113,9 +107,9 @@
     // ============================================================
     //  FILL IN THESE 3 VALUES
     // ============================================================
-    const WEBHOOK_URL  = "https://discord.com/api/webhooks/1555527280552452146/eVYYlrza15AJb0iRGeYw2qX3zi_1IMXHlqXKUS4KZe-aNBzP156R9mQNx9-V9_Ks8AwZ";   // webhook created INSIDE #applications
-    const R5_ROLE_ID   = "1555422347467685948";   // Leader (R5) role ID  (or leave "" to skip ping)
-    const R4_ROLE_ID   = "1555422349304668180";   // Officer R4 role ID   (or leave "" to skip ping)
+    const WEBHOOK_URL  = "https://discord.com/api/webhooks/1555527280552452146/eVYYlrza15AJb0iRGeYw2qX3zi_1IMXHlqXKUS4KZe-aNBzP156R9mQNx9-V9_Ks8AwZ";
+    const R5_ROLE_ID   = "1555422347467685948";   // Leader (R5) role ID (leave "" to skip ping)
+    const R4_ROLE_ID   = "1555422349304668180";   // Officer R4 role ID (leave "" to skip ping)
     // ============================================================
 
     const form      = document.getElementById('rokForm');
@@ -160,7 +154,6 @@
       showStatus('Submitting your application...', false, true);
 
       var discordUser = val('discord');
-      var userID      = val('discordid');
       var ign         = val('ign') || 'Applicant';
       var mightRaw    = val('might').replace(/[^0-9]/g, '');
       var mightFmt    = mightRaw ? Number(mightRaw).toLocaleString() : val('might');
@@ -171,7 +164,6 @@
         image: { url: 'attachment://rok-proof.png' },
         fields: [
           { name: 'Discord',          value: discordUser || '-', inline: true },
-          { name: 'Discord User ID',  value: userID || '-',      inline: true },
           { name: 'IGN',              value: ign,                 inline: true },
           { name: 'Kingdom',          value: val('kingdom') || '-', inline: true },
           { name: 'Might',            value: mightFmt,            inline: true },
@@ -207,6 +199,24 @@
         var res = await fetch(WEBHOOK_URL, { method: 'POST', body: fd });
         if (res.ok) {
           showStatus('Submitted! Staff will review your application and contact you on Discord within 48 hours.', false);
+          form.reset();
+          preview.style.display = 'none';
+        } else {
+          var txt = '';
+          try { txt = await res.text(); } catch (_) {}
+          throw new Error('HTTP ' + res.status + ' ' + txt);
+        }
+      } catch (err) {
+        console.error(err);
+        showStatus('Failed to send. Check your webhook URL and that it was created in the applications channel.', true);
+      }
+
+      submitBtn.disabled = false;
+    });
+  </script>
+</body>
+</html>
+e);
           form.reset();
           preview.style.display = 'none';
         } else {
