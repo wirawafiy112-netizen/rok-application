@@ -32,8 +32,8 @@
 <body>
   <div class="card">
     <div class="header">
-      <h1>ROK Alliance Application</h1>
-      <p>All fields marked * are required &mdash; sent privately to Staff</p>
+      <h1>🏰 ROK Alliance Application</h1>
+      <p>All fields marked * are required &mdash; sent privately to Staff only</p>
     </div>
 
     <form id="rokForm">
@@ -80,9 +80,9 @@
       <div class="form-group">
         <label>Voice Comms During Wars</label>
         <select id="voice">
-          <option value="Yes - always available">Yes - always available</option>
-          <option value="Sometimes - depends">Sometimes - depends</option>
-          <option value="No - cannot use">No - cannot use</option>
+          <option value="✅ Yes - always available">✅ Yes - always available</option>
+          <option value="⚠️ Sometimes - depends">⚠️ Sometimes - depends</option>
+          <option value="❌ No - cannot use">❌ No - cannot use</option>
         </select>
       </div>
 
@@ -98,18 +98,18 @@
         <img id="preview" alt="Screenshot preview">
       </div>
 
-      <button type="submit" class="btn" id="submitBtn">SUBMIT APPLICATION</button>
+      <button type="submit" class="btn" id="submitBtn">📤 SUBMIT APPLICATION</button>
       <div id="statusMsg" class="status"></div>
     </form>
   </div>
 
   <script>
     // ============================================================
-    //  FILL IN THESE 3 VALUES
+    //  PASTE YOUR NEW FORUM WEBHOOK URL + ROLE IDs BELOW
     // ============================================================
-    const WEBHOOK_URL  = "https://discord.com/api/webhooks/1555527280552452146/eVYYlrza15AJb0iRGeYw2qX3zi_1IMXHlqXKUS4KZe-aNBzP156R9mQNx9-V9_Ks8AwZ";
-    const R5_ROLE_ID   = "1555422347467685948";   // Leader (R5) role ID (leave "" to skip ping)
-    const R4_ROLE_ID   = "1555422349304668180";   // Officer R4 role ID (leave "" to skip ping)
+    const WEBHOOK_URL = "https://discord.com/api/webhooks/1555931725933187102/eGSXzk2P6D9K9_nEK4JLN8k4SAvATSXWXCk760m5lEsTrExW83a1zE6yf2plC3SC3KM7";
+    const R5_ROLE_ID  = "1555422347467685948";  // Leader role ID (or leave "")
+    const R4_ROLE_ID  = "1555422349304668180";  // Officer role ID (or leave "")
     // ============================================================
 
     const form      = document.getElementById('rokForm');
@@ -147,8 +147,8 @@
       e.preventDefault();
 
       var file = fileInput.files[0];
-      if (!file) { showStatus('Please attach your ROK profile screenshot.', true); return; }
-      if (file.size > MAX_BYTES) { showStatus('Screenshot must be under 8MB.', true); return; }
+      if (!file) { showStatus('❌ Please attach your ROK profile screenshot.', true); return; }
+      if (file.size > MAX_BYTES) { showStatus('❌ Screenshot must be under 8MB.', true); return; }
 
       submitBtn.disabled = true;
       showStatus('Submitting your application...', false, true);
@@ -159,23 +159,23 @@
       var mightFmt    = mightRaw ? Number(mightRaw).toLocaleString() : val('might');
 
       var embed = {
-        title: 'New ROK Application',
+        title: '📥 New ROK Application',
         color: 16766720,
         image: { url: 'attachment://rok-proof.png' },
         fields: [
-          { name: 'Discord',          value: discordUser || '-', inline: true },
-          { name: 'IGN',              value: ign,                 inline: true },
-          { name: 'Kingdom',          value: val('kingdom') || '-', inline: true },
-          { name: 'Might',            value: mightFmt,            inline: true },
-          { name: 'City Hall',        value: 'Lv. ' + (val('chlevel') || '-'), inline: true },
-          { name: 'Timezone',         value: val('timezone') || '-', inline: true },
-          { name: 'Voice Comms',      value: val('voice') || '-' },
-          { name: 'Main Commanders',  value: val('commanders') || '-' },
+          { name: 'Discord',           value: discordUser || '-', inline: true },
+          { name: 'IGN',               value: ign,                 inline: true },
+          { name: 'Kingdom',           value: val('kingdom') || '-', inline: true },
+          { name: 'Total Might',       value: mightFmt,            inline: true },
+          { name: 'City Hall Level',   value: 'Lv. ' + (val('chlevel') || '-'), inline: true },
+          { name: 'Timezone',          value: val('timezone') || '-', inline: true },
+          { name: 'Voice Comms',       value: val('voice') || '-' },
+          { name: 'Main Commanders',   value: val('commanders') || '-' },
           { name: 'Previous Alliance', value: val('previous') || '-' },
-          { name: 'Extra Info',       value: val('extra') || '-' }
+          { name: 'Additional Info',   value: val('extra') || '-' }
         ],
         timestamp: new Date().toISOString(),
-        footer: { text: 'Submitted via ROK Application Form' }
+        footer: { text: 'Submitted via ROK Alliance Application Form' }
       };
 
       var pings = [];
@@ -198,35 +198,17 @@
       try {
         var res = await fetch(WEBHOOK_URL, { method: 'POST', body: fd });
         if (res.ok) {
-          showStatus('Submitted! Staff will review your application and contact you on Discord within 48 hours.', false);
+          showStatus('✅ Submitted! Your private review post is created. Staff will contact you within 48 hours.', false);
           form.reset();
           preview.style.display = 'none';
         } else {
           var txt = '';
           try { txt = await res.text(); } catch (_) {}
-          throw new Error('HTTP ' + res.status + ' ' + txt);
+          throw new Error('HTTP ' + res.status + ' — double-check your Forum webhook URL');
         }
       } catch (err) {
         console.error(err);
-        showStatus('Failed to send. Check your webhook URL and that it was created in the applications channel.', true);
-      }
-
-      submitBtn.disabled = false;
-    });
-  </script>
-</body>
-</html>
-e);
-          form.reset();
-          preview.style.display = 'none';
-        } else {
-          var txt = '';
-          try { txt = await res.text(); } catch (_) {}
-          throw new Error('HTTP ' + res.status + ' ' + txt);
-        }
-      } catch (err) {
-        console.error(err);
-        showStatus('Failed to send. Check your webhook URL and that it was created in the applications channel.', true);
+        showStatus('❌ Failed: ' + err.message, true);
       }
 
       submitBtn.disabled = false;
